@@ -97,3 +97,10 @@
 .theader {
   color: #555;
 }
+
+.namerequired {
+  color: rgba(255, 0, 0, 0.8);
+  margin-left: 0.5rem;
+  font-style: italic;
+  font-weight: bold;
+}

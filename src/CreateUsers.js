@@ -1,65 +1,102 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-
+import { useFormik } from 'formik';
 
 
 function CreateUsers() {
 
-    const [name, setName] = useState('');
-    const [age, setAge] = useState('');
-    const [email, setEmail] = useState('');
-    const [imgurl, setImgurl] = useState('');
-    const [description, setDescription] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
-
-    let handleSubmit = async (e) => {
-        try {
-            e.preventDefault();
-            setIsLoading(true);
-            await axios.post("https://60ebd2d8e9647b0017cdde36.mockapi.io/Users", { name, age, email, imgurl, description })
-            setIsLoading(false);
-            history.push('/users')
-        } catch (error) {
-            setIsLoading(false)
-            console.log(error);
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            age: '',
+            email: '',
+            imgurl: '',
+            description: ''
+        },
+        validate: (values) => {
+            let errors = {};
+            if (!values.name) {
+                errors.name = "Required"
+            }
+            if (values.name && values.name.length < 3) {
+                errors.name = "Must contain atleast 3 characters"
+            }
+            if (!values.age) {
+                errors.age = "Required"
+            }
+            if (values.age && values.age < 13) {
+                errors.age = "Must be 13 & above"
+            }
+            if (!values.email) {
+                errors.email = "Required"
+            } else if (!values.email.includes('@')) {
+                errors.email = "Enter valid e-mail"
+            }
+            if (!values.imgurl) {
+                errors.imgurl = "Required"
+            }
+            if (values.imgurl && !values.imgurl.startsWith('https://')) {
+                errors.imgurl = "Enter valid url"
+            }
+            if (!values.description) {
+                errors.description = "Required"
+            }
+            return errors;
+        },
+        onSubmit: (values) => {
+            let handleformSubmit = async () => {
+                try {
+                    setIsLoading(true);
+                    await axios.post("https://60ebd2d8e9647b0017cdde36.mockapi.io/Users", { name: values.name, age: values.age, email: values.email, imgurl: values.imgurl, description: values.description })
+                    setIsLoading(false);
+                    history.push('/users')
+                } catch (error) {
+                    setIsLoading(false)
+                    console.log(error);
+                }
+            }
+            handleformSubmit();
         }
-    }
+    })
+
 
     return (
         <div>
             <h3 className="page-title mb-4">Create New User</h3>
             {
-                isLoading ? <h1 className="loading">Loading...</h1> : (<form onSubmit={handleSubmit}>
+                isLoading ? <h1 className="loading">Loading...</h1> : (<form onSubmit={formik.handleSubmit}>
                     <div className="row mb-3">
                         <div className="col-6">
-                            <label htmlFor="name">Name</label>
-                            <input type="text" value={name} onChange={(e) => setName(e.target.value)} id="name" className="form-control" />
+                            <label htmlFor="name">Name</label> {formik.errors.name ? <span className="namerequired">{formik.errors.name}</span> : null}
+                            <input type="text" value={formik.values.name} name="name" onChange={formik.handleChange} id="name" className="form-control" />
                         </div>
+
                         <div className="col-6">
-                            <label htmlFor="age">Age</label>
-                            <input type="number" value={age} onChange={(e) => setAge(e.target.value)} id="age" className="form-control" />
+                            <label htmlFor="age">Age</label>{formik.errors.age ? <span className="namerequired">{formik.errors.age}</span> : null}
+                            <input type="number" value={formik.values.age} name="age" onChange={formik.handleChange} id="age" className="form-control" />
                         </div>
                     </div>
                     <div className="row mb-3">
                         <div className="col-6">
-                            <label htmlFor="email">E-mail</label>
-                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} id="email" className="form-control" />
+                            <label htmlFor="email">E-mail</label>{formik.errors.email ? <span className="namerequired">{formik.errors.email}</span> : null}
+                            <input type="email" value={formik.values.email} name="email" onChange={formik.handleChange} id="email" className="form-control" />
                         </div>
                         <div className="col-6">
-                            <label htmlFor="imgurl">Image Url</label>
-                            <input type="text" value={imgurl} onChange={(e) => setImgurl(e.target.value)} id="imgurl" className="form-control" />
+                            <label htmlFor="imgurl">Image Url</label>{formik.errors.imgurl ? <span className="namerequired">{formik.errors.imgurl}</span> : null}
+                            <input type="text" value={formik.values.imgurl} name="imgurl" onChange={formik.handleChange} id="imgurl" className="form-control" />
                         </div>
                     </div>
                     <div className="row mb-4">
                         <div className="col-12">
-                            <label htmlFor="description">Description</label>
-                            <textarea type="text" value={description} onChange={(e) => setDescription(e.target.value)} id="description" className="form-control" rows="3"></textarea>
+                            <label htmlFor="description">Description</label>{formik.errors.description ? <span className="namerequired">{formik.errors.description}</span> : null}
+                            <textarea type="text" value={formik.values.description} name="description" onChange={formik.handleChange} id="description" className="form-control" rows="3"></textarea>
                         </div>
                     </div>
                     <div className="btn-container">
-                        <button className="btn btn-outline-primary btn-container-primary" disabled={isLoading ? true : false}>Create User</button>
+                        <input type="submit" value="Create User" className="btn btn-outline-primary btn-container-primary" disabled={isLoading ? true : false} />
                     </div>
                 </form>)
             }
