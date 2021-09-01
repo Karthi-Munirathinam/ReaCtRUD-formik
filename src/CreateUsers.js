@@ -17,7 +17,7 @@ function CreateUsers() {
             description: ''
         },
         validate: (values) => {
-            let errors = {};
+            let errors = { };
             if (!values.name) {
                 errors.name = "Required"
             }
@@ -67,38 +67,39 @@ function CreateUsers() {
         <div>
             <h3 className="page-title mb-4">Create New User</h3>
             {
-                isLoading ? <h1 className="loading">Loading...</h1> : (<form onSubmit={formik.handleSubmit}>
-                    <div className="row mb-3">
-                        <div className="col-6">
-                            <label htmlFor="name">Name</label> {formik.errors.name ? <span className="namerequired">{formik.errors.name}</span> : null}
-                            <input type="text" value={formik.values.name} name="name" onChange={formik.handleChange} id="name" className="form-control" />
-                        </div>
+                isLoading ? <h1 className="loading">Loading...</h1>
+                    : (<form onSubmit={formik.handleSubmit} className="pb-3">
+                        <div className="row">
+                            <div className="col-lg-6 mb-3">
+                                <label htmlFor="name">Name</label> {formik.errors.name ? <span className="namerequired">{formik.errors.name}</span> : null}
+                                <input type="text" value={formik.values.name} name="name" onChange={formik.handleChange} id="name" className="form-control" />
+                            </div>
 
-                        <div className="col-6">
-                            <label htmlFor="age">Age</label>{formik.errors.age ? <span className="namerequired">{formik.errors.age}</span> : null}
-                            <input type="number" value={formik.values.age} name="age" onChange={formik.handleChange} id="age" className="form-control" />
+                            <div className="col-lg-6 mb-3">
+                                <label htmlFor="age">Age</label>{formik.errors.age ? <span className="namerequired">{formik.errors.age}</span> : null}
+                                <input type="number" value={formik.values.age} name="age" onChange={formik.handleChange} id="age" className="form-control" />
+                            </div>
                         </div>
-                    </div>
-                    <div className="row mb-3">
-                        <div className="col-6">
-                            <label htmlFor="email">E-mail</label>{formik.errors.email ? <span className="namerequired">{formik.errors.email}</span> : null}
-                            <input type="email" value={formik.values.email} name="email" onChange={formik.handleChange} id="email" className="form-control" />
+                        <div className="row">
+                            <div className="col-lg-6 mb-3">
+                                <label htmlFor="email">E-mail</label>{formik.errors.email ? <span className="namerequired">{formik.errors.email}</span> : null}
+                                <input type="email" value={formik.values.email} name="email" onChange={formik.handleChange} id="email" className="form-control" />
+                            </div>
+                            <div className="col-lg-6 mb-3">
+                                <label htmlFor="imgurl">Image Url</label>{formik.errors.imgurl ? <span className="namerequired">{formik.errors.imgurl}</span> : null}
+                                <input type="text" value={formik.values.imgurl} name="imgurl" onChange={formik.handleChange} id="imgurl" className="form-control" />
+                            </div>
                         </div>
-                        <div className="col-6">
-                            <label htmlFor="imgurl">Image Url</label>{formik.errors.imgurl ? <span className="namerequired">{formik.errors.imgurl}</span> : null}
-                            <input type="text" value={formik.values.imgurl} name="imgurl" onChange={formik.handleChange} id="imgurl" className="form-control" />
+                        <div className="row mb-4">
+                            <div className="col-12">
+                                <label htmlFor="description">Description</label>{formik.errors.description ? <span className="namerequired">{formik.errors.description}</span> : null}
+                                <textarea type="text" value={formik.values.description} name="description" onChange={formik.handleChange} id="description" className="form-control" rows="3"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div className="row mb-4">
-                        <div className="col-12">
-                            <label htmlFor="description">Description</label>{formik.errors.description ? <span className="namerequired">{formik.errors.description}</span> : null}
-                            <textarea type="text" value={formik.values.description} name="description" onChange={formik.handleChange} id="description" className="form-control" rows="3"></textarea>
+                        <div className="btn-container">
+                            <input type="submit" value="Create User" className="btn btn-outline-primary btn-container-primary" disabled={isLoading ? true : false} />
                         </div>
-                    </div>
-                    <div className="btn-container">
-                        <input type="submit" value="Create User" className="btn btn-outline-primary btn-container-primary" disabled={isLoading ? true : false} />
-                    </div>
-                </form>)
+                    </form>)
             }
 
         </div>

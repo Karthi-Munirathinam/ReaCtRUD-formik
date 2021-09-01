@@ -40,49 +40,46 @@ function Users(props) {
             <h3 className="page-title mb-4">Users</h3>
 
             {
-                isLoading ? <h1 className="loading">Loading...</h1> : <div className="card">
-                    <div className="row">
-                        <div className="col-12 ">
-                            <table className="table table-info table-hover mb-0">
-                                <thead>
-                                    <tr>
-                                        <th className="text-center theader">ID</th>
-                                        <th className="text-center theader">Name</th>
-                                        <th className="text-center theader">Age</th>
-                                        <th className="text-center theader">Description</th>
-                                        <th className="text-center theader">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {userData.map((obj, index) => {
-                                        return (
+                isLoading ? <h1 className="loading">Loading...</h1>
+                    : <div className="col-12 table-responsive-lg">
+                        <table className="table table-info table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th className="text-center theader">ID</th>
+                                    <th className="text-center theader">Name</th>
+                                    <th className="text-center theader">Age</th>
+                                    <th className="text-center theader">Description</th>
+                                    <th className="text-center theader">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {userData.map((obj, index) => {
+                                    return (
 
-                                            <tr key={index}>
-                                                <td>{index + 1}</td>
-                                                <td><Link to={`/profile/${obj.id}`}>{obj.name}</Link></td>
-                                                <td>{obj.age}</td>
-                                                <td>{obj.description}</td>
-                                                <td><div className="btn-containers mt-1"><Link to={`/edit-user/${obj.id}`} className=" btn btn-sm btn-primary">Edit</Link><button onClick={() => handledelete(obj.id)} className=" btn btn-sm btn-danger">Delete</button></div></td>
-                                            </tr>
-                                        )
-                                    })}
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td><Link to={`/profile/${obj.id}`}>{obj.name}</Link></td>
+                                            <td>{obj.age}</td>
+                                            <td>{obj.description}</td>
+                                            <td><div className="btn-containers mt-1"><Link to={`/edit-user/${obj.id}`} className=" btn btn-sm btn-primary">Edit</Link><button onClick={() => handledelete(obj.id)} className=" btn btn-sm btn-danger">Delete</button></div></td>
+                                        </tr>
+                                    )
+                                })}
 
 
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th className="text-center theader">ID</th>
-                                        <th className="text-center theader">Name</th>
-                                        <th className="text-center theader">Age</th>
-                                        <th className="text-center theader">Description</th>
-                                        <th className="text-center theader">Actions</th>
-                                    </tr>
-                                </tfoot>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th className="text-center theader">ID</th>
+                                    <th className="text-center theader">Name</th>
+                                    <th className="text-center theader">Age</th>
+                                    <th className="text-center theader">Description</th>
+                                    <th className="text-center theader">Actions</th>
+                                </tr>
+                            </tfoot>
 
-                            </table>
-                        </div>
+                        </table>
                     </div>
-                </div>
             }
         </div>
     )
